@@ -1,4 +1,5 @@
 "Simon"-style  repeat game for TinyLab
+
 Andre Needham
 
 Similar to the old Simon repeat game.  The TinyLab will flash one of four LEDs.  Within a couple seconds, you must press the button under the LED that flashed.  Now TinyLab will flash that LED followed by another one.  Press the buttons under the LEDs in sequence.  Keep going until you fail (or you hit 64 in a row at which point the game will probably stop.  I haven't tested that.)
