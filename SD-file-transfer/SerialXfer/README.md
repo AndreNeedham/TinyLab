@@ -15,8 +15,13 @@ Select a file in the listbox, then click "Get selected file" to copy a file from
 Select a file in the listbox, then click "Delete selected file" to delete that file from the SD card.  You'll be asked to confirm your decision.
 
 Some notes:
+
 Filenames must be of the 8.3 format - 8 characters maximum followed by "." and a three-character file extension.  Long filenames aren't supported.
+
 You can only see the root folder of the SD card.  You can't load/save to a subfolder.
+
 You can't copy over files larger than 2gb (but why would you want to in any case?).
+
 File transfer speed is a bit slow.  I tried a 1 MB file and it took almost a minute.
+
 The PC-side program is a WinForms program (targeting Windows, tested on Windows 10).  You might be able to get it to run on Linux as a Mono app.  If you want to transfer files between a Mac and Tinylab, you'll have to solve that on your own.
