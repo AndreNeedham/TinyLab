@@ -4,7 +4,7 @@ Andre Needham
 
 Two programs that allow you to transfer files from your PC to your Tinylab's SD card and vice-versa.  Part one is an Arduino sketch.  Part two is a Windows Forms app built with Visual Studio 2015.
 
-Upload this sketch onto your Tinylab (leave it running with the USB cable plugged in), then run SerialXferSender.exe on your PC.  You'll see a list of the files currently on the Tinylab's SD card.
+Upload the sketch in the SerialXfer folder onto your Tinylab (leave it running with the USB cable plugged in), then run the WinForms app SerialXferSender.exe on your PC.  You'll see a list of the files currently on the Tinylab's SD card.
 
 Click the "Send a file button" and you'll see an Open File dialog.  Select the file you'd like to upload to your Tinylab's SD card and click Open.
 
