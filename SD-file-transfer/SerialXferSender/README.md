@@ -24,4 +24,4 @@ You can't copy over files larger than 2gb (but why would you want to in any case
 
 File transfer speed is a bit slow.  I tried a 1 MB file and it took almost a minute.
 
-The PC-side program is a WinForms program (targeting Windows, tested on Windows 10).  You might be able to get it to run on Linux as a Mono app.  If you want to transfer files between a Mac and Tinylab, you'll have to solve that on your own.
+The PC-side program is a WinForms program (targeting Windows, tested on Windows 10 64-bit and Windows 7 32-bit).  You might be able to get it to run on Linux as a Mono app.  If you want to transfer files between a Mac and Tinylab, you'll have to solve that on your own.
