@@ -20,7 +20,7 @@ void setup()
 
   sd.begin(4); //4 is the CS pin for the SD card
 
-  Serial.begin(115200);
+  Serial.begin(115200); //doesn't seem to make a difference on Leonardo
 }
 
 void loop()
@@ -97,7 +97,26 @@ void saveFileToSD()
     File fp = sd.open(filename, FILE_WRITE);
 
     char c;
-    for(int index = 0; index < fileSize; index++)
+
+    //do 64-byte blocks at a time for better speed
+    char cBuf[64];
+    long fileBlocks = fileSize / (long)64;
+    int pos = 0;
+    
+    for(long index = 0; index < fileBlocks; index++)
+    {
+      while(pos < 64)
+      {
+        while(!Serial.available());
+        cBuf[pos++] = Serial.read();
+      }
+      fp.write(cBuf, 64);
+      pos = 0;
+    }
+
+    fileSize -= fileBlocks << 6;
+
+    for(long index = 0; index < fileSize; index++)
     {
       //wait for byte
       while(!Serial.available());
@@ -118,6 +137,15 @@ void getFileFromSD()
     //first return the file size so the other end knows how many bytes to expect.
     long fileSize = fp.fileSize();
     Serial.println(fileSize, DEC);
+
+    char cBuf[64];
+
+    //do 32-byte block reads for better speed
+    while(fp.available() > 64)
+    {
+      fp.read(cBuf, 64);
+      Serial.write(cBuf, 64);
+    }
 
     //now transfer the file bytes
     char c;
