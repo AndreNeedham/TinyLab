@@ -78,18 +78,31 @@ namespace SerialXferSender
 
             if (!serialPort1.IsOpen)
             {
+                DisableButtons();
+
                 try
                 {
                     serialPort1.Open();
                     serialPort1.WriteLine(fileName);
                     serialPort1.WriteLine(fileSize.ToString());
-                    serialPort1.Write(fileBytes, 0, fileSize);
+
+                    //BUGBUG getting unexpected IOException on files > 1mb.  Let's try sending only 1mb at a time.
+                    int fileLoc = 0;
+                    while (fileSize > 1048576)
+                    {
+                        serialPort1.Write(fileBytes, fileLoc, 1048576);
+                        fileSize -= 1048576;
+                        fileLoc += 1048576;
+                    }
+                    serialPort1.Write(fileBytes, fileLoc, fileSize);
                     serialPort1.Close();
                 }
-                catch
+                catch(Exception)
                 {
                     MessageBox.Show("There was an error. Please make sure that the correct port was selected, and the device, plugged in.");
                 }
+
+                EnableButtons();
 
                 listBox1.Items.Clear();
                 getFileListButton_Click(sender, e);
@@ -148,6 +161,8 @@ namespace SerialXferSender
 
                 if (fileSize > 0)
                 {
+                    DisableButtons();
+
                     byte[] bytes = new byte[fileSize];
                     for (int index = 0; index < fileSize; index++)
                         bytes[index] = (byte)serialPort1.ReadByte();
@@ -159,6 +174,8 @@ namespace SerialXferSender
                         //NOTE!!! this WILL overwrite the destination file if it exists.  Thus the overwrite prompt a few lines up from here.
                         File.WriteAllBytes(saveFileDialog1.FileName, bytes);
                     }
+
+                    EnableButtons();
                 }
                 else MessageBox.Show("Error reading file.");
 
@@ -192,6 +209,22 @@ namespace SerialXferSender
                     getFileListButton_Click(sender, e);
                 }
             }
+        }
+
+        private void DisableButtons()
+        {
+            deleteFileButton.Enabled = false;
+            getFileListButton.Enabled = false;
+            sendFileButton.Enabled = false;
+            getSelectedFileButton.Enabled = false;
+        }
+
+        private void EnableButtons()
+        {
+            deleteFileButton.Enabled = true;
+            getFileListButton.Enabled = true;
+            sendFileButton.Enabled = true;
+            getSelectedFileButton.Enabled = true;
         }
     }
 }
