@@ -84,15 +84,8 @@ void setup() {
   sendData(cmd + "\r\n", 10000, DEBUG);  
   lcd.print(".");
 
-  //Had this here before but apparently not needed?
-  //delay(1000); 
-
   sendData("AT+CIPMUX=0\r\n", 8000, DEBUG); // Configure server connection type  
-  lcd.print(".");
     
-  // Open TCP connection to the host:
-  sendData("AT+CIPSTART=\"TCP\",\"" + host + "\"," + httpPort + "\r\n", 15000, DEBUG);
-
   lcd.clear();
   lcd.setCursor(0,0);  
   lcd.print("Ticker: " + stocks[selectedStock]);
@@ -105,6 +98,10 @@ String getStockQuote() //selected stock is global var
   String outputString = "";
   
   lcd.setCursor(0, 1);
+  lcd.print(".");
+
+  // Open TCP connection to the host:
+  sendData("AT+CIPSTART=\"TCP\",\"" + host + "\"," + httpPort + "\r\n", 15000, DEBUG);
   lcd.print(".");
 
   // Construct our HTTP call
@@ -150,7 +147,9 @@ String getStockQuote() //selected stock is global var
       curPos++;
     }    
   }
-    
+
+  sendData("AT+CIPCLOSE\r\n", 2000, DEBUG); // Close server connection
+
   return outputString;
 }
 
